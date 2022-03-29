@@ -1,0 +1,4 @@
+FigureCanvasQTAgg
+pyuic5 -o field.py field.ui
+        MainWindow.setWindowTitle(_translate("MainWindow", "MyAPP"))
+        MainWindow.setWindowIcon(QtGui.QIcon('./image/images/001.ico'))
