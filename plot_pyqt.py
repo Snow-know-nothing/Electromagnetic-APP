@@ -39,7 +39,7 @@ class PlotCanvas(FigureCanvas):
             self.ax1.cla()
             self.ax1.plot(z,E1, color='blue', alpha=0.5)
             self.ax1.fill_between(z, 0, E1, color='blue', alpha=.25)  # 填充两个函数之间的区域，本例中填充（0和Y+1之间的区域）
-            self.ax1.set_xlim(0,xlim)
+            #self.ax1.set_xlim(0,xlim)
             self.ax1.set_ylim(-6, 6)
             #ax.xlabel('Spatial location')
             #ax.ylabel('Electric field strength')
@@ -49,7 +49,7 @@ class PlotCanvas(FigureCanvas):
             self.ax2.cla()
             self.ax2.plot(z,H1, color='red', alpha=0.5)
             self.ax2.fill_between(z, 0, H1, color='red', alpha=.25)  # 填充两个函数之间的区域，本例中填充（0和Y+1之间的区域）
-            self.ax2.set_xlim(0,xlim)
+            #self.ax2.set_xlim(0,xlim)
             self.ax2.set_ylim(-6, 6)                         # 统一坐标轴，便于合并前后的流畅
             #self.ax2.set_xlabel('Spatial location')
             #ax2.ylabel('Magnetic induction')
@@ -74,7 +74,7 @@ class PlotCanvas(FigureCanvas):
 class PlotCanvas3D(FigureCanvas):
 
     def __init__(self, parent=None):
-        self.fig = plt.figure(figsize=(6.3,6.3))  # 可选参数,facecolor为背景颜色facecolor='#FFD7C4',
+        self.fig = plt.figure(figsize=(5,5))  # 可选参数,facecolor为背景颜色facecolor='#FFD7C4',
         # self.axes = self.fig.subplots() #也可以用add_subplot
         self.axes = Axes3D(self.fig)
         FigureCanvas.__init__(self, self.fig) #初始化激活widget中的plt部分
@@ -82,17 +82,20 @@ class PlotCanvas3D(FigureCanvas):
         FigureCanvas.setSizePolicy(self,QSizePolicy.Expanding,QSizePolicy.Expanding)
         self.axes.mouse_init()
 
-    def plot3D(self,z,E1,H1,xlim):
+    def plot3D(self,x,y,z,E1,H1,xlim):
         self.axes.cla()
-        self.axes.plot(E1, np.zeros_like(E1), z, c='b')
-        self.axes.plot(np.zeros_like(H1), H1, z, c='r')
+        # x,y = np.meshgrid(10,10)
+        self.axes.quiver3D(x,y,z,E1, np.zeros_like(E1), np.zeros_like(E1),color="blue")
+        self.axes.quiver3D(x,y,z,np.zeros_like(H1), H1, np.zeros_like(H1),color="red")
+        # self.axes.plot(E1, np.zeros_like(E1), z, c='b')
+        # self.axes.plot(np.zeros_like(H1), H1, z, c='r')
         self.axes.set_xlabel('Electric field x')
         self.axes.set_ylabel('Magnetic field y')
         # fig = plt.figure()
          # ax = fig.gca(projection='3d')
          # figure1 = ax.plot3D(E1, np.zeros_like(E1), z, c='b')
          # figure2 = ax.plot3D(np.zeros_like(H1), H1, z, c='r')
-         # #plt.xlim(-2, 2)
-         # #plt.ylim(-0.01*scale1, 0.01*scale1)
+        # self.axes.set_xlim(-5, 5)
+        # self.axes.set_ylim(-5, 5)
         self.axes.set_title('Vertical incidence of plane wave')
         self.draw()
